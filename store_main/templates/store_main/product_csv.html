@@ -1,0 +1,10 @@
+{% extends 'store_base.html' %}
+
+{% block content %}
+product_csv
+<form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ CsvUploadForm.as_p }}
+    <button type="submit" class="btn btn-primary">アップロード</button>
+</form>
+{% endblock content %}

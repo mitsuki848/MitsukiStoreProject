@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="cart-container">
+    <div class="container">
+
+        {% for product, num in cart_products.items %}
+        <div class="card m-3" style="width: 35rem;">
+            <div class="row no-gutters">
+                <div class="col-md-4 my-auto">
+                    <img class="card-img cart-img" src="{{ product.image.url }}">
+                </div>
+                <div class="col-md-8">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ product.name }}</h5>
+                        <p>価格：{{ product.price }}円</p>
+                        <p>数量：{{ num }}個</p>
+                        <form action="{% url 'main:change_product_amount' %}"
+                              method="POST">
+                            {% csrf_token %}
+                            <input type="hidden" name="product_id"
+                                   value="{{ product.id }}">
+                            <input type="submit" name="action_remove"
+                                   value="1つ減らす">
+                            <input type="submit" name="action_add"
+                                   value="1つ増やす">
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <div class="purchase-form m-3" style="width: 40rem;">
+        <form method="POST">
+            {% csrf_token %}
+            <div class="purchase-form-container">
+                <div class="purchase-form-address">
+                    <div>
+                        <p>
+                            {{ purchase_form.zip_code.label_tag }}
+                            {{ purchase_form.zip_code }}
+                            <input type="submit" name="search_address"
+                                   value="住所を検索">
+                        </p>
+
+                    </div>
+                    <div>
+                        <p>
+                            {{ purchase_form.address.label_tag }}
+                            {{ purchase_form.address }}
+                        </p>
+                    </div>
+                </div>
+                <div class="purchase-form-pay">
+                    請求金額：{{ total_price }}
+                    <input type="submit" name="buy_product"
+                           class="purchase-button" value="購入する">
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock content %}

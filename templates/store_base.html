@@ -1,0 +1,46 @@
+<!doctype html>
+{% load django_bootstrap5 %}
+{% load static %}
+{% load humanize %}
+
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>MitsukiStore</title>
+    {% bootstrap_css %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}?<?php date_default_timezone_set('Asia/Tokyo'); echo date('ymdHis',filemtime('{% static 'css/style.css' %}')); ?>"/>
+    {% bootstrap_javascript %}
+</head>
+<body>
+<header>
+    <nav class="navbar navbar-expand-lg navbar-light bg-warning">
+        <div class="container-fluid">
+            <a class="navbar-brand"
+               href="{% url 'store_main:store_index' %}">ストア商品管理</a>
+            <button class="navbar-toggler" type="button"
+                    data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                    aria-controls="navbarNav" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+        </div>
+    </nav>
+
+</header>
+<div class="container">
+    {% for message in messages %}
+    {% if message.tags %}
+    <div class="{{ message.tags }}">
+        {{ message }}
+    </div>
+    {% endif %}
+    {% endfor %}
+    {% block content %}
+    {% endblock content %}
+</div>
+</body>
+</html>

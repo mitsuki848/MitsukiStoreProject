@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% load humanize %}
+
+{% block content %}
+<div class="container order-container">
+    <div class="order-history mt-3">
+        <h2>注文履歴</h2>
+        {% for sale in sales %}
+        <div class="card m-3" style="width: 35rem;">
+            <div class="row no-gutters">
+                <div class="col-md-4 my-auto">
+                    <img class="card-img cart-img"
+                         src="{{ sale.product.image.url }}">
+                </div>
+                <div class="col-md-8">
+                    <div class="card-body">
+                        <div class="order-content mb-1">
+                        <h6 class="card-title">{{ sale.product.name }}</h6>
+                        価格：{{ sale.price }}円
+                        <br>
+                        数量：{{ sale.amount }}個
+                        <br>
+                        合計金額：{{ sale.total_price }}円
+                            </div>
+
+                        <div class="order-address my-1">
+                            <strong>お届け先住所</strong>
+                            <br>
+                            〒 {{ sale.zip_code }}
+                            <br>
+                            {{ sale.address }}
+                        </div>
+                        <div class="order-day mb-1">
+                            <h6>注文日：{{ sale.created_at }}</h6>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock content %}

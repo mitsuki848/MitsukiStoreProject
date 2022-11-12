@@ -1,0 +1,34 @@
+{% extends 'store_base.html' %}
+
+{% block content %}
+product_new
+<form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    <p>
+        {{ form.code.label_tag }}
+        {{ form.code }}
+    </p>
+    <p>
+        {{ form.name.label_tag }}
+        {{ form.name }}
+    </p>
+    <p>
+        {{ form.description.label_tag }}
+        {{ form.description }}
+    </p>
+    <p>
+        {{ form.price.label_tag }}
+        {{ form.price }}
+    </p>
+    <p>
+        {{ form.amount.label_tag }}
+        {{ form.amount }}
+    </p>
+    <p>
+        {{ form.image.label_tag }}
+        {{ form.image }}
+    </p>
+    <input type="submit" name="product_new"
+                                   value="新規登録">
+</form>
+{% endblock content %}

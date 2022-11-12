@@ -1,0 +1,26 @@
+{% extends 'store_base.html' %}
+
+{% block content %}
+
+<div class="card mx-auto my-2" style="width: 60rem; max-width: 100%;">
+    <div class="card-body store-card">
+        <a href="{% url 'store_main:product_new' %}"></a>
+        <h4 class="card-title">新規商品登録</h4>
+        <p class="card-text">新しい商品を登録します。</p>
+    </div>
+</div>
+<div class="card mx-auto my-2" style="width: 60rem; max-width: 100%;">
+    <div class="card-body store-card">
+        <a href="{% url 'store_main:product_list' %}"></a>
+        <h4 class="card-title">商品一覧・編集</h4>
+        <p class="card-text">商品名・説明・画像・価格・在庫の編集を行います。</p>
+    </div>
+</div>
+<div class="card mx-auto my-2" style="width: 60rem; max-width: 100%;">
+    <div class="card-body store-card">
+        <a href="{% url 'store_main:product_csv' %}"></a>
+        <h4 class="card-title">商品csv追加・編集</h4>
+        <p class="card-text">csvによる商品名・説明・価格・在庫の編集を行います。</p>
+    </div>
+</div>
+{% endblock content %}

@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% load humanize %}
+
+{% block content %}
+<section class="wrapper">
+    <div class="container">
+        <div class="content">
+            <div class="content-item">
+                <img src="{{ product.image.url }}" class="image" style="wight: 18rem;">
+            </div>
+            <div class="content-item">
+                <div class="text">
+                    <h2 class="heading">商品名：{{ product.name }}</h2>
+                    <p>商品説明：{{ product.description }}</p>
+                    <p>価格：{{ product.price }}円</p>
+                    {% if request.user.is_authenticated %}
+                    <form method="POST">
+                        {% csrf_token %}
+                        {{ add_cart_form.as_p }}
+                        <button type="submit">
+                            カートに追加する
+                        </button>
+                    </form>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock content %}

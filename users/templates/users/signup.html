@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block content %}
+signup
+<form action="" method="POST">
+    {% csrf_token %}
+    {% if form.errors %}
+    <p>既に登録されているメールアドレス、もしくは登録passwordと確認passwordが異なります。</p>
+    {% endif %}
+    <div class="mb-3">
+        <label for="exampleFormControlInput1" class="form-label">Email
+            address</label>
+        <input type="email" class="form-control" id="exampleFormControlInput1"
+               placeholder="name@example.com" name="email">
+    </div>
+    <!--  name="username"とname="password"が必要  -->
+    <div class="mb-3">
+        <label for="exampleFormControlInput1"
+               class="form-label">登録password</label>
+        <input type="password" class="form-control" id="password1"
+               placeholder="" name="password1">
+    </div>
+    <div class="mb-3">
+        <label for="exampleFormControlInput1"
+               class="form-label">確認password</label>
+        <input type="password" class="form-control" id="password2"
+               placeholder="" name="password2">
+    </div>
+    <input type="submit" value="登録">
+</form>
+{% endblock content %}

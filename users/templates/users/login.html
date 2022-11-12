@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block content %}
+login
+<form action="" method="POST">
+    {% csrf_token %}
+    {% if form.errors %}
+    <p>ユーザー名かパスワードが間違っています</p>
+    {% endif %}
+    <div class="mb-3">
+        <label for="exampleFormControlInput1" class="form-label">Email
+            address</label>
+        <input type="email" class="form-control" id="exampleFormControlInput1"
+               placeholder="name@example.com" name="username">
+    </div>
+    <!--  name="username"とname="password"が必要  -->
+    <div class="mb-3">
+        <label for="exampleFormControlInput1"
+               class="form-label">password</label>
+        <input type="password" class="form-control" id="password"
+               placeholder="" name="password">
+    </div>
+    <input type="submit" value="ログイン">
+</form>
+{% endblock content %}

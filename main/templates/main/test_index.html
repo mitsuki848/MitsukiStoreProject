@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<p>users</p>
+{% for user in users %}
+<p>{{ user }}</p>
+{% endfor %}
+
+<p>products</p>
+{% for product in products %}
+<p>{{ product }}</p>
+{% endfor %}
+
+<p>sales</p>
+{% for sale in sales %}
+<p>{{ sale }}</p>
+{% endfor %}
+
+
+{% endblock content %}

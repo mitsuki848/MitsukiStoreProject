@@ -1,0 +1,31 @@
+{% extends 'store_base.html' %}
+
+{% block content %}
+
+<div class="container store-product-container">
+    <div class="container">
+        {% for product in products %}
+        <div class="card mx-auto store-card my-3" style="width: 60rem; max-width: 100%;">
+            <div class="row no-gutters store-card">
+                <a href="{% url 'store_main:product_edit' product.id %}"></a>
+                <div class="col-md-4 my-auto">
+                    <img class="card-img cart-img store-card-img-top"
+                         src="{{ product.image.url }}">
+                </div>
+                <div class="col-md-8">
+                    <div class="card-body">
+                        <div class="store-product-content mb-1">
+                            <h6 class="card-title">{{ product.name }}</h6>
+                            価格：{{ product.price }}円
+                            <br>
+                            在庫数：{{ product.amount }}個
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock content %}
