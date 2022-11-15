@@ -2,9 +2,24 @@
 
 {% block content %}
 product_csv
-<form method="POST" enctype="multipart/form-data">
-    {% csrf_token %}
-    {{ CsvUploadForm.as_p }}
-    <button type="submit" class="btn btn-primary">アップロード</button>
-</form>
+<div class="container my-3">
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ csv_upload_form.as_p }}
+        <button type="submit" class="btn btn-primary" name="product_csv">
+            csvアップロード
+        </button>
+    </form>
+</div>
+<div class="container my-3">
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <p>
+            画像zipファイル: {{ image_zip_form.zip_import }}{{ image_zip_form.zip_import.help_text }}
+        </p>
+        <button type="submit" class="btn btn-primary" name="product_img_zip">
+            画像zipアップロード
+        </button>
+    </form>
+</div>
 {% endblock content %}

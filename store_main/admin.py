@@ -1,5 +1,5 @@
 from django.contrib import admin
-from store_main.models import Product, Sale
+from store_main.models import Product, Sale, ImageZip
 
 from import_export import resources
 from import_export.admin import ImportMixin
@@ -7,8 +7,11 @@ from import_export.admin import ImportMixin
 from import_export.formats import base_formats
 
 
-# csvのインポートエクスポート
 class ProductResource(resources.ModelResource):
+    """
+    csvのインポートエクスポート
+    https://tech.fragment.co.jp/python/django/django-import-export/
+    """
 
     class Meta:
         # 対象モデル
@@ -26,3 +29,4 @@ class ProductAdmin(ImportMixin, admin.ModelAdmin):
 # モデルのadmin表示
 admin.site.register(Product, ProductAdmin)
 admin.site.register(Sale)
+admin.site.register(ImageZip)

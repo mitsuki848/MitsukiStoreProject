@@ -7,11 +7,12 @@ class Product(models.Model):
     name = models.CharField(verbose_name='商品名', max_length=128)
     description = models.TextField(verbose_name='商品説明', max_length=5000,
                                    blank=True, default='')
-    price = models.PositiveIntegerField(verbose_name='価格',)
+    price = models.PositiveIntegerField(verbose_name='価格', blank=True,
+                                        default=0)
     amount = models.PositiveIntegerField(verbose_name='在庫数', blank=True,
                                          default=0)
-    image = models.ImageField(verbose_name='商品画像', upload_to='product',)
-    code = models.CharField(verbose_name='商品コード', max_length=128,)
+    image = models.ImageField(verbose_name='商品画像', upload_to='product', )
+    code = models.CharField(verbose_name='商品コード', max_length=128, )
 
     # adminでの表示名
     def __str__(self):
@@ -36,3 +37,12 @@ class Sale(models.Model):
     address = models.CharField(verbose_name='住所', max_length=128, blank=True,
                                default='')
     created_at = models.DateTimeField(verbose_name='販売日', auto_now=True)
+
+
+class ImageZip(models.Model):
+    """
+    zipファイル受け入れ用モデル
+    https://stackoverflow.com/questions/37234473/django-admin-images-in-zip-file-and-inserting-each-image-info-in-a-database
+    """
+    zip_import = models.FileField(blank=True, upload_to='image_zip',
+                                  help_text='※画像のzipファイルをアップロードしてください。')

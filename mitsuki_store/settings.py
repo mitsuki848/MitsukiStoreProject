@@ -18,6 +18,7 @@ from django.contrib import messages
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
@@ -45,6 +46,7 @@ INSTALLED_APPS = [
     'django.contrib.humanize',
     'import_export',
     'django_extensions',
+    'stripe',
 ]
 
 # 数値に3桁つづカンマを追加
@@ -153,3 +155,7 @@ MESSAGE_TAGS = {
     messages.WARNING: 'alert alert-warning',
     messages.ERROR: 'alert alert-danger',
 }
+
+#　決済パブリックキーとシークレットキー
+STRIPE_API_KEY = settings_local.stripe_api_key
+STRIPE_PUBLISHABLE_KEY = settings_local.stripe_publishable_key

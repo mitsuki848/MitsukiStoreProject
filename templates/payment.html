@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="ja">
+    <head>
+        <meta charset="UTF-8">
+        <script src="https://js.stripe.com/v3/"></script>
+    </head>
+    <body>
+        <!--inputタグでclient_secretを渡す→JavaScriptで値を取得する-->
+        <input type="hidden" id="client_secret" value="{{ client_secret }}">
+
+        <!--フォームが読み込まれたら、Payment Elementのインスタンスを作成して、それをコンテナーのDOMノードにマウントする-->
+        <form id="payment-form">
+            <div id="payment-element">
+                <!-- Elements will create form elements here -->
+            </div>
+            <p>お支払い金額：{{ amount }}円</p>
+            <button id="submit">支払いを確定する</button>
+            <div id="error-message">
+            <!-- Display error message to your customers here -->
+            </div>
+        </form>
+
+        <script src="{% static 'js/stripe.js' %}"></script>
+    </body>

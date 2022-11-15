@@ -5,7 +5,11 @@ from main.forms import AddToCartForm, PurchaseForm
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST
 from django.contrib import messages
-import json, requests
+from django.conf import settings
+# https://www.teamxeppet.com/pycharm-module-not-found-error/
+import stripe
+import json
+import requests
 
 
 # モデル出力確認
@@ -93,8 +97,7 @@ def fetch_address(zip_code):
 
 # カートページ
 @login_required
-def cart(request):
-
+def user_cart(request):
     # GET POST 両方の変数＝＝＝＝＝＝＝＝＝＝＝＝
 
     # session自体が辞書型になっているので.getで'cart'キーでcartの辞書を取得、
@@ -137,7 +140,7 @@ def cart(request):
                 # 住所が取得できなかった場合はメッセージを出してリダイレクト
                 if not address:
                     messages.warning(request, "住所を取得できませんでした")
-                    return redirect('main:cart')
+                    return redirect('main:user_cart')
 
                 # 住所が取得出来たらフォームの値として入力する
                 purchase_form = PurchaseForm(
@@ -148,7 +151,8 @@ def cart(request):
                     'cart_products': cart_products,
                     'total_price': total_price,
                 }
-                return render(request, template_name='main/cart.html', context=context)
+                return render(request, template_name='main/user_cart.html',
+                              context=context)
 
         # 購入ボタンを押された場合
         if 'buy_product' in request.POST:
@@ -156,27 +160,26 @@ def cart(request):
             # 住所が入力済みか確認する。未入力の場合はリダイレクトする。
             if not purchase_form.cleaned_data['address']:
                 messages.warning(request, "住所の入力は必須です")
-                return redirect('main:cart')
+                return redirect('main:user_cart')
 
             # カートが空じゃないか確認する
             if not cart:
                 messages.warning(request, "カートは空です")
-                return redirect('main:cart')
+                return redirect('main:user_cart')
 
             # 所持ポイントが十分にあるかを確認する。
             if total_price > user.point:
                 messages.warning(request, "所持ポイントが足りません")
-                return redirect('main:cart')
+                return redirect('main:user_cart')
 
             # 在庫があるか確認する。
             for product, num in cart_products.items():
                 if product.amount < num:
                     messages.warning(request, f"{product.name}の在庫が足りません")
-                    return redirect('main:cart')
+                    return redirect('main:user_cart')
 
             # 各プロダクトのSale情報を保持（売上記録の登録）
             for product, num in cart_products.items():
-
                 sale = Sale(
                     # modelでForeignKeyとしている為、productはProductのインスタンスでなければならない。
                     product=product,
@@ -204,7 +207,7 @@ def cart(request):
             del request.session['cart']
 
             messages.success(request, "商品の購入が完了しました！")
-            return redirect('main:cart')
+            return redirect('main:user_cart')
 
     # GETの場合
     purchase_form = PurchaseForm()
@@ -214,7 +217,7 @@ def cart(request):
         'cart_products': cart_products,
         'total_price': total_price,
     }
-    return render(request, template_name='main/cart.html', context=context)
+    return render(request, template_name='main/user_cart.html', context=context)
 
 
 # 数量変更
@@ -237,7 +240,7 @@ def change_product_amount(request):
         # 商品個数が0以下になった場合は、カートから対象商品の削除
         if cart_session[product_id] <= 0:
             del cart_session[product_id]
-    return redirect('main:cart')
+    return redirect('main:user_cart')
 
 
 # 注文履歴
@@ -246,4 +249,40 @@ def order_history(request):
     user = request.user
     sales = Sale.objects.filter(user=user).order_by('-created_at')
     context = {'sales': sales}
-    return render(request, template_name='main/order_history.html', context=context)
+    return render(request, template_name='main/order_history.html',
+                  context=context)
+
+
+# 決済　支払いフォームを返す処理
+def payment(request):
+    # StripeのAPIキーを登録する
+    stripe.api_key = settings.STRIPE_API_KEY
+
+    # 今回は支払い額を10,000円とする
+    amount = 10000
+
+    # PaymentIntentを作成する
+    intent = stripe.PaymentIntent.create(
+        amount=amount,
+        currency='jpy',
+        description='テスト支払い',
+        payment_method_types=["card"],
+    )
+
+    # 作成したPaymentIntentからclient_secretを取得する
+    client_secret = intent["client_secret"]
+
+    # テンプレートと渡すデータを指定する
+    template_name = "payment.html"
+    context = {
+        "amount": amount,
+        "client_secret": client_secret,
+    }
+
+    return render(request, template_name, context)
+
+
+# 単純に支払い完了ページを表示する処理
+def thanks(request):
+    template_name = "thanks.html"
+    return render(request, template_name)
