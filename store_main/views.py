@@ -144,6 +144,7 @@ def product_csv(request):
             csv_form = CsvUploadForm(request.POST, request.FILES)
 
             if csv_form.is_valid():
+                """ 商品csvアップ機能 """
                 # csv.readerに渡すため、TextIOWrapperでテキストモードなファイルに変換
                 csvfile = io.TextIOWrapper(csv_form.cleaned_data['file'],
                                            encoding='utf-8')
@@ -158,7 +159,7 @@ def product_csv(request):
                     product.description = row[2]
                     product.price = row[3]
                     product.amount = row[4]
-                    product.image = row[5]
+                    product.image = f'product/{row[5]}'
                     product.save()
                 messages.add_message(request, messages.SUCCESS,
                                      "追加・編集を完了しました。")
@@ -169,6 +170,7 @@ def product_csv(request):
                 return redirect('store_main:product_csv')
 
         if 'product_img_zip' in request.POST:
+            """ 画像zipアップ機能 """
             # フォームのhtmlとファイルを受け取る
             image_zip_form = ImageZipForm(request.POST, request.FILES)
             if image_zip_form.is_valid():
@@ -176,15 +178,16 @@ def product_csv(request):
                 # zipを保存
                 image_zip.save()
                 # zipを展開
-                print(settings.MEDIA_ROOT)
-                print(glob.glob(os.path.join(settings.MEDIA_ROOT, 'image_zip',
-                                             '*.zip'))[-1])
                 shutil.unpack_archive(
                     glob.glob(os.path.join(settings.MEDIA_ROOT, 'image_zip',
                                            '*.zip'))[-1],
                     os.path.join(settings.MEDIA_ROOT, 'product'),
                 )
+                # ImageZipのレコードを全て削除
                 ImageZip.objects.all().delete()
+                # ディレクトリごとzipファイルを削除
+                shutil.rmtree(os.path.join(settings.MEDIA_ROOT, 'image_zip'))
+
                 messages.add_message(request, messages.SUCCESS,
                                      "画像アップロードを完了しました。")
                 return redirect('store_main:product_csv')
@@ -203,17 +206,3 @@ def product_csv(request):
     }
     return render(request, template_name='store_main/product_csv.html',
                   context=context)
-
-
-# 画像zipアップロード
-def product_img_zip(request):
-    # スーパーユーザーでない場合
-    if not request.user.is_superuser:
-        return redirect('main:index')
-
-    if request.method == 'POST':
-        import shutil
-        from django.conf import settings
-        shutil.unpack_archive('img.zip', settings.MEDIA_URL)
-        return redirect('store_main:product_csv')
-    pass
