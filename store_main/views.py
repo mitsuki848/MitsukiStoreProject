@@ -15,7 +15,7 @@ import shutil
 
 
 def store_index(request):
-    # スーパーユーザーでない場合
+    # スーパーユーザーでない場合。
     if not request.user.is_superuser:
         return redirect('main:index')
 
