@@ -30,7 +30,7 @@ SECRET_KEY = env('secret_key')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 
@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'import_export',
     'django_extensions',
     'stripe',
+    'rest_framework',
 ]
 
 # 数値に3桁つづカンマを追加
@@ -95,8 +96,15 @@ WSGI_APPLICATION = 'mitsuki_store.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        # 'ENGINE': 'django.db.backends.sqlite3',
+        # 'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'mitsuki_store',
+        'USER': 'postgres',
+        'PASSWORD': 'postgres',
+        'HOST': 'mitsuki-store-postgres12d.cowotmcygvbr.ap-northeast-1.rds.amazonaws.com',
+        'PORT': 5432,
+
     }
 }
 
