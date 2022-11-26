@@ -11,7 +11,8 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>MitsukiStore</title>
     {% bootstrap_css %}
-    <link rel="stylesheet" href="{% static 'css/style.css' %}?<?php date_default_timezone_set('Asia/Tokyo'); echo date('ymdHis',filemtime('{% static 'css/style.css' %}')); ?>"/>
+    <link rel="stylesheet"
+          href="{% static 'css/style.css' %}?<?php date_default_timezone_set('Asia/Tokyo'); echo date('ymdHis',filemtime('{% static 'css/style.css' %}')); ?>"/>
     {% bootstrap_javascript %}
 </head>
 <body>
@@ -26,9 +27,16 @@
                     aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+            <div class="collapse navbar-collapse justify-content-end"
+                 id="navbarNav">
                 <ul class="navbar-nav">
                     {% if request.user.is_authenticated %}
+                    {% if user.is_superuser %}
+                    <li class="nav-item h4 mx-4">
+                        <a class="nav-link active"
+                           href="{% url 'store_main:store_index' %}">ストア管理画面へ</a>
+                    </li>
+                    {% endif %}
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page"
                            href="#">Point: {{ user.point }}</a>

@@ -2,8 +2,8 @@
 
 {% block content %}
 login1126-2
-{% csrf_token %}
 <form action="" method="POST">
+    {% csrf_token %}
     {% if form.errors %}
     <p>ユーザー名かパスワードが間違っています</p>
     {% endif %}

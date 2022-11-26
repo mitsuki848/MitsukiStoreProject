@@ -47,7 +47,6 @@ def product_new(request):
     context = {
         'form': form,
     }
-    print(ProductForm())
     return render(request, template_name="store_main/product_new.html",
                   context=context)
 
