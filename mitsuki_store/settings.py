@@ -28,10 +28,10 @@ env.read_env(os.path.join(BASE_DIR, '.env'))
 SECRET_KEY = env('secret_key')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-# DEBUG = True
-DEBUG = False
+DEBUG = True
+# DEBUG = False
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['mitsukistore.tk', '127.0.0.1', 'localhost']
 
 CSRF_TRUSTED_ORIGINS = ['https://mitsukistore.tk']
 
@@ -97,19 +97,24 @@ WSGI_APPLICATION = 'mitsuki_store.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        # 'ENGINE': 'django.db.backends.sqlite3',
-        # 'NAME': BASE_DIR / 'db.sqlite3',
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'mitsuki_store',
-        'USER': 'postgres',
-        'PASSWORD': 'postgres',
-        'HOST': 'mitsuki-store-postgres12d.cowotmcygvbr.ap-northeast-1.rds.amazonaws.com',
-        'PORT': 5432,
-
+if not DEBUG:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': 'mitsuki_store',
+            'USER': 'postgres',
+            'PASSWORD': 'postgres',
+            'HOST': 'mitsuki-store-postgres12d.cowotmcygvbr.ap-northeast-1.rds.amazonaws.com',
+            'PORT': 5432,
+        }
     }
-}
+else:
+    DATABASES = {
+        'default': {
+            # 'ENGINE': 'django.db.backends.sqlite3',
+            # 'NAME': BASE_DIR / 'db.sqlite3',
+        }
+    }
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
@@ -146,14 +151,19 @@ USE_TZ = True
 STATIC_URL = 'static/'
 STATICFILES_DIRS = (
     [
-        os.path.join(BASE_DIR, "static"),
+        os.path.join(BASE_DIR, "static/"),
     ]
 )
-STATIC_ROOT = os.path.join(BASE_DIR, "public_static")
 
 # 商品画像保存場所指定
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-MEDIA_URL = '/media/'
+MEDIA_URL = 'media/'
+
+if not DEBUG:
+    STATIC_ROOT = os.path.join('/usr/share/nginx/html', "public_static/")
+    MEDIA_ROOT = os.path.join('/usr/share/nginx/html', 'media/')
+else:
+    STATIC_ROOT = os.path.join(BASE_DIR, "public_static"/)
+    MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
