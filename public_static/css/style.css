@@ -1,0 +1,85 @@
+.navbar-brand {
+    font-size: 3rem;
+}
+
+.navbar-nav {
+    font-size: 1.3rem;
+}
+
+.wrapper{
+    width:100%;
+    background-color:#fafafa;
+}
+.wrapper .container{
+    max-width:1000px;
+    margin:0px auto;
+    padding:80px 0px;
+}
+/* content */
+@media (min-width: 992px) {
+    .wrapper .container .content {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+}
+.wrapper .content-item {
+    width:100%;
+}
+@media (min-width: 992px) {
+    .wrapper .content-item {
+        width:50%;
+    }
+}
+.wrapper .image{
+    display:block;
+    max-width:100%;
+    margin:0px auto;
+}
+.wrapper .text{
+    padding:50px;
+}
+.wrapper .text .heading{
+    margin:0px 0px 40px 0px;
+    font-size: 24px;
+    font-weight: normal;
+}
+
+.cart-container{
+    display: flex;
+}
+
+.order-container{
+  display: flex;
+  justify-content: center;
+}
+
+img.cart-img {
+    max-width: 200px;
+    height: auto;
+}
+
+img.store-card-img-top {
+    max-width: 100px;
+    height: auto;
+}
+
+/* 親要素 */
+.store-card {
+    position: relative;
+}
+/* 親要素のaタグ */
+.store-card  a {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+/*indexスライド*/
+.carousel-caption{
+color: black;
+}

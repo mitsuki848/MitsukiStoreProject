@@ -148,6 +148,7 @@ STATICFILES_DIRS = (
         os.path.join(BASE_DIR, "static"),
     ]
 )
+STATIC_ROOT = os.path.join(BASE_DIR, "public_static")
 
 # 商品画像保存場所指定
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
