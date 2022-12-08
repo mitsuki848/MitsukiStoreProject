@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from users.models import User
 from store_main.models import Product, Sale
 from main.forms import AddToCartForm, PurchaseForm
@@ -31,8 +32,17 @@ def test_index(request):
 # トップページ、商品の一覧表示
 def index(request):
     products = Product.objects.all()
+    # ページネーション
+    paginator = Paginator(products, 9)
+    page = request.GET.get('page', 1)
+    try:
+        pages = paginator.page(page)
+    except PageNotAnInteger:
+        pages = paginator.page(1)
+    except EmptyPage:
+        pages = paginator.page(1)
     context = {
-        'products': products,
+        'pages': pages
     }
     return render(request, template_name='main/index.html', context=context)
 

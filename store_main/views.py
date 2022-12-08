@@ -102,7 +102,6 @@ def product_edit(request, product_id):
             print('delete')
             # 商品削除ボタンが押された場合
             product_delete(request, product_id)
-            # ???product_listにリダイレクトされない？
 
     # GET の場合
     context = {

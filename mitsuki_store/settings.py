@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     'django_extensions',
     'stripe',
     'rest_framework',
+    'apis.apps.ApiConfig',
 ]
 
 # 数値に3桁つづカンマを追加
@@ -111,8 +112,8 @@ if not DEBUG:
 else:
     DATABASES = {
         'default': {
-            # 'ENGINE': 'django.db.backends.sqlite3',
-            # 'NAME': BASE_DIR / 'db.sqlite3',
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
         }
     }
 
@@ -162,7 +163,7 @@ if not DEBUG:
     STATIC_ROOT = os.path.join('/usr/share/nginx/html', "public_static/")
     MEDIA_ROOT = os.path.join('/usr/share/nginx/html', 'media/')
 else:
-    STATIC_ROOT = os.path.join(BASE_DIR, "public_static"/)
+    STATIC_ROOT = os.path.join(BASE_DIR, "public_static/")
     MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 
 # Default primary key field type

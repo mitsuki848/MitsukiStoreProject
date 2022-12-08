@@ -33,7 +33,8 @@
             </div>
         </div>
         <div class="carousel-item">
-            <img src="{% static 'img/mizuirohaikeiy1.jpg' %}" class="d-block w-100"
+            <img src="{% static 'img/mizuirohaikeiy1.jpg' %}"
+                 class="d-block w-100"
                  alt="...">
             <div class="carousel-caption d-none d-md-block">
                 <h3>ポートフォリオ用です</h3>
@@ -56,16 +57,68 @@
 
 
 <div class="container-fluid row">
-    {% for product in products %}
+    {% for page in pages %}
     <div class="card m-4 p-4" style="width: 18rem;">
-        <img src="{{ product.image.url }}" class="card-img-top" alt="...">
+        <img src="{{ page.image.url }}" class="card-img-top" alt="...">
         <div class="card-body">
-            <h5 class="card-title">{{ product.name }}</h5>
-            <p class="card-text">{{ product.price }}</p>
-            <a href="{% url 'main:product_detail' product.id %}"
+            <h5 class="card-title">{{ page.name }}</h5>
+            <p class="card-text">{{ page.price }}</p>
+            <a href="{% url 'main:product_detail' page.id %}"
                class="btn btn-primary">商品詳細</a>
         </div>
     </div>
     {% endfor %}
-</div>
+
+    {% if pages.has_other_pages %}
+    <nav aria-label="Page navigation example">
+        <ul class="pagination">
+            {% if pages.has_previous %}
+            <li><a class="page-link text-primary d-inline-block"
+                   href="?page={{ pages.previous_page_number }}"><<</a></li>
+            {% else %}
+            <li class="disabled">
+                <div class="page-link text-secondary d-inline-block disabled"
+                     href="#"><<
+                </div>
+            </li>
+            {% endif %}
+
+            {% for page_num in pages.paginator.page_range %}
+            {% if page_num %}
+            {% if page_num == pages.number %}
+            <li class="disabled">
+                <div class="page-link text-secondary d-inline-block disabled"
+                     href="#">{{ page_num }}
+                </div>
+            </li>
+            {% else %}
+            <li><a class="page-link text-primary d-inline-block"
+                   href="?page={{ page_num }}">{{ page_num }}</a></li>
+            {% endif %}
+            {% else %}
+            <li class="disabled"><a
+                    class="page-link text-secondary d-inline-block text-muted"
+                    href="#">・・・</a></li>
+            {% endif %}
+            {% endfor %}
+        </ul>
+    </nav>
+    {% endif %}
+
+
+
+
+<!--<div class="container-fluid row">-->
+<!--    {% for product in products %}-->
+<!--    <div class="card m-4 p-4" style="width: 18rem;">-->
+<!--        <img src="{{ product.image.url }}" class="card-img-top" alt="...">-->
+<!--        <div class="card-body">-->
+<!--            <h5 class="card-title">{{ product.name }}</h5>-->
+<!--            <p class="card-text">{{ product.price }}</p>-->
+<!--            <a href="{% url 'main:product_detail' product.id %}"-->
+<!--               class="btn btn-primary">商品詳細</a>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--    {% endfor %}-->
+<!--</div>-->
 {% endblock content %}

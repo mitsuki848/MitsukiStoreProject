@@ -17,12 +17,20 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
+from rest_framework import routers
+from apis.views import ProductApiViewSet
+
+# DefaultRouter クラスのインスタンスを代入
+defaultRouter = routers.DefaultRouter()
+# userInfo/ にUserInfoViewSetをルーティングする
+defaultRouter.register('productApi', ProductApiViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('main.urls')),
     path('users/', include('users.urls')),
     path('store_main/', include('store_main.urls')),
+    path('api/', include(defaultRouter.urls)),
 ]
 
 urlpatterns += static(
