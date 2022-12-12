@@ -6,12 +6,21 @@ from django.conf import settings
 from store_main.models import Product, ImageZip
 from main.views import index
 from store_main.forms import ProductForm, CsvUploadForm, ImageZipForm
+from apis.serializers import ProductSerializer
 
 import csv
 import io
 import os
 import glob
 import shutil
+
+
+def test_index(request):
+    serializer = ProductSerializer()
+    print(serializer.data)
+    context = {}
+    return render(request, template_name="store_main/test_index.html",
+                  context=context)
 
 
 def store_index(request):
@@ -65,6 +74,22 @@ def product_list(request):
                   context=context)
 
 
+# 商品削除
+def product_delete(request, product_id):
+    # スーパーユーザーでない場合
+    if not request.user.is_superuser:
+        return redirect('main:index')
+
+    # 該当商品読み込み
+    product = get_object_or_404(Product, pk=product_id)
+    # 商品削除
+    product.delete()
+    messages.add_message(request, messages.SUCCESS,
+                         "削除を完了しました。")
+
+    return redirect('store_main:product_list')
+
+
 # ストア側の商品編集ページ
 def product_edit(request, product_id):
     # スーパーユーザーでない場合
@@ -99,9 +124,8 @@ def product_edit(request, product_id):
                                      "編集に失敗しました。")
 
         if "product_delete" in request.POST:
-            print('delete')
             # 商品削除ボタンが押された場合
-            product_delete(request, product_id)
+            return product_delete(request, product_id)
 
     # GET の場合
     context = {
@@ -110,20 +134,6 @@ def product_edit(request, product_id):
     }
     return render(request, template_name="store_main/product_edit.html",
                   context=context)
-
-
-# 商品削除
-def product_delete(request, product_id):
-    # スーパーユーザーでない場合
-    if not request.user.is_superuser:
-        return redirect('main:index')
-
-    # 該当商品読み込み
-    product = get_object_or_404(Product, pk=product_id)
-    # 商品削除
-    product.delete()
-
-    return redirect('store_main:product_list')
 
 
 # ストア側のcsv商品登録・編集機能

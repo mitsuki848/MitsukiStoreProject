@@ -31,9 +31,9 @@ def test_index(request):
 
 # トップページ、商品の一覧表示
 def index(request):
-    products = Product.objects.all()
+    products = Product.objects.all().order_by('-code')
     # ページネーション
-    paginator = Paginator(products, 9)
+    paginator = Paginator(products, 6)
     page = request.GET.get('page', 1)
     try:
         pages = paginator.page(page)
