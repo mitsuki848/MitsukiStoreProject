@@ -28,8 +28,8 @@ env.read_env(os.path.join(BASE_DIR, '.env'))
 SECRET_KEY = env('secret_key')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-# DEBUG = False
+# DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['mitsukistore.tk', '127.0.0.1', 'localhost']
 
