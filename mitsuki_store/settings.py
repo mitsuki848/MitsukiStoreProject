@@ -99,20 +99,14 @@ WSGI_APPLICATION = 'mitsuki_store.wsgi.application'
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
 if not DEBUG:
-    # DATABASES = {
-    #     'default': {
-    #         'ENGINE': 'django.db.backends.postgresql',
-    #         'NAME': 'mitsuki_store',
-    #         'USER': 'postgres',
-    #         'PASSWORD': 'postgres',
-    #         'HOST': 'mitsuki-store-postgres12d.cowotmcygvbr.ap-northeast-1.rds.amazonaws.com',
-    #         'PORT': 5432,
-    #     }
-    # }
     DATABASES = {
         'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': BASE_DIR / 'db.sqlite3',
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': 'mitsuki_store',
+            'USER': 'postgres',
+            'PASSWORD': 'postgres',
+            'HOST': 'mitsuki-store-postgres12d.cowotmcygvbr.ap-northeast-1.rds.amazonaws.com',
+            'PORT': 5432,
         }
     }
 else:
@@ -122,7 +116,7 @@ else:
             'NAME': BASE_DIR / 'db.sqlite3',
         }
     }
-
+    
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
 
@@ -167,7 +161,8 @@ MEDIA_URL = 'media/'
 
 if not DEBUG:
     STATIC_ROOT = os.path.join('/usr/share/nginx/html', "public_static/")
-    MEDIA_ROOT = os.path.join('/usr/share/nginx/html', 'media/')
+#     MEDIA_ROOT = os.path.join('/usr/share/nginx/html', 'media/')
+    MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 else:
     STATIC_ROOT = os.path.join(BASE_DIR, "public_static/")
     MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
