@@ -156,13 +156,15 @@ STATICFILES_DIRS = (
     ]
 )
 
-# 商品画像保存場所指定
+# 商品画像参照先
 MEDIA_URL = 'media/'
+# MEDIA_URL = os.path.join(BASE_DIR, 'media/')
 
 if not DEBUG:
     STATIC_ROOT = os.path.join('/usr/share/nginx/html', "public_static/")
-#     MEDIA_ROOT = os.path.join('/usr/share/nginx/html', 'media/')
-    MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
+    # 商品画像保存先
+    MEDIA_ROOT = os.path.join('/usr/share/nginx/html', 'media/')
+    # MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 else:
     STATIC_ROOT = os.path.join(BASE_DIR, "public_static/")
     MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
